@@ -152,3 +152,13 @@ public class CharacterController : MonoBehaviour
         _characterStateMachine.OnUpdate(Time.deltaTime);
     }
 ```
+
+
+## Unit Tested
+This State Machine System is rigorously tested to ensure reliability and correctness. It comes with a comprehensive suite of NUnit unit tests covering all core functionalities, including:
+
+-  **State Management**: Adding states, changing states, and verifying state lifecycle callbacks.
+
+- **Transition Logic**: Adding transitions, evaluating transition conditions, and confirming transition lifecycle callbacks.
+
+- **Error Handling**: Testing custom exceptions for invalid operations (e.g., adding duplicate states, invalid transitions).
