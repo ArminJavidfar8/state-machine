@@ -162,3 +162,47 @@ This State Machine System is rigorously tested to ensure reliability and correct
 - **Transition Logic**: Adding transitions, evaluating transition conditions, and confirming transition lifecycle callbacks.
 
 - **Error Handling**: Testing custom exceptions for invalid operations (e.g., adding duplicate states, invalid transitions).
+
+## Editor Visualization (Unity Editor Only)
+
+Gain a real-time understanding of your state machine's behavior directly within the Unity Editor! This powerful debugging and visualization tool provides a graphical representation of your states and transitions, making complex logic easy to follow.
+
+**Features:**
+- **Live Updates:** Reflects the current active state with a distinct color.
+- **Transition Tracking:** Highlights the last triggered transition, allowing you to see the flow of your state machine as it executes.
+- **Interactive Debugging:** Drag state nodes around to organize your view.
+
+**How to Use:**
+1. **Integrate the Window Opening Code:**
+To visualize your state machine, you'll need to call the `EditorWindow.GetWindow<StateMachineEditorWindow>()` method from a context where you have access to your `IStateMachine` instance.  
+
+For example, you can call it from:
+- A custom editor
+- A MonoBehaviour's `[ContextMenu]` method (as shown below)
+- Any other custom Unity Editor script
+
+```csharp
+// Example in CharacterController.cs
+public class CharacterController : MonoBehaviour
+{
+    private IStateMachine _characterStateMachine; // Your state machine instance
+
+    #if UNITY_EDITOR
+        [ContextMenu("Visualize State Machine")]
+        public void VisualizeStateMachine()
+        {
+            var window = EditorWindow.GetWindow<StateMachineEditorWindow>();
+            window.SetStateMachine(_Character.StateMachine);
+            window.Show();
+        }
+    #endif
+}
+```
+2. **Run Your Game:** Enter Play Mode in Unity.
+
+3. **Open the Visualizer:**  
+   If you used `[ContextMenu]`, select the GameObject with your `CharacterController` (or whichever MonoBehaviour you added the context menu to) in the Hierarchy.  
+   Right-click on the component in the Inspector and select **"Visualize State Machine"**.  
+   If you used another method, trigger it as appropriate for your setup.
+
+4. **Observe:** As your game runs and states change, the editor window will update in real-time.
