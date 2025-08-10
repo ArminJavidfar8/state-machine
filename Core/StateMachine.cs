@@ -9,6 +9,12 @@ namespace YekGames.StateMachineSystem.Core
         private IState _CurrentState;
         private IDictionary<IState, IList<ITransition>> _Transitions;
 
+        #region Internal Properties
+        IList<IState> IStateMachine.States => _States;
+        IDictionary<IState, IList<ITransition>> IStateMachine.Transitions => _Transitions;
+        ITransition IStateMachine.LastTriggeredTransition { get; set; }
+        #endregion
+
         public IState CurrentState => _CurrentState;
 
         public StateMachine()
@@ -29,6 +35,7 @@ namespace YekGames.StateMachineSystem.Core
                         transition.OnUpdate(deltaTime);
                         if (transition.CheckTransition())
                         {
+                            (this as IStateMachine).LastTriggeredTransition = transition;
                             ChangeState(transition.TargetState);
                         }
                     }
@@ -77,7 +84,7 @@ namespace YekGames.StateMachineSystem.Core
                 {
                     if (item.Key == newState)
                     {
-                        foreach(ITransition transition in item.Value)
+                        foreach (ITransition transition in item.Value)
                         {
                             transition.OnTransitionEntered();
                         }
